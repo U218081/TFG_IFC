@@ -82,7 +82,7 @@ function changeModeButton_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %Each click on this button changes the execution mode from
-% MOVING MODE - This allows the user to move the alignment results.
+% plot MOVING MODE - This allows the user to move the alignment results.
 % CORRECTING MODE - This allows the user to select a segment to
 % interpolate
 mihandles=checkHandles();
@@ -93,7 +93,7 @@ if handles.mode== 0
     %We must inform the user of what mode he is in:
 
     texto=findobj('Tag', 'textMode');
-    set(texto, 'String', 'Modo corrección');
+    set(texto, 'String', 'Correction mode');
     
     mihandles.mode=1;
    
@@ -105,7 +105,7 @@ else
     %Informing the user again:
 
     texto=findobj('Tag', 'textMode');
-    set(texto, 'String', 'Modo mover gráfico');
+    set(texto, 'String', 'Plot moving mode');
 
    
     mihandles=delPuntos();
@@ -130,7 +130,7 @@ function loadButton_Callback(hObject, eventdata, handles)
 openFile_ClickedCallback(hObject, eventdata, handles);
 
     texto=findobj('Tag', 'textMode');
-    set(texto, 'String', 'Modo mover gráfico');
+    set(texto, 'String', 'Moving plot mode');
 
 end
 
@@ -150,10 +150,10 @@ set(text,'visible', 'on')
 
 if (all(tr_anclaje) && all(tm_anclaje))
 uisave({'p','matrizTmxTr','tr_anclaje', 'tm_anclaje'},handles.nombremat)
-msgbox('Proceso guardado finalizado.','Guardado');
+msgbox('Saving process done.','Saved');
 else
 uisave({'p','matrizTmxTr'},handles.nombremat)
-msgbox('Proceso guardado finalizado.','Guardado');
+msgbox('Saving process done.','Saved');
 end
 
 
@@ -183,7 +183,7 @@ if mihandles.puntosCorreccion == 2
    
 else
     texto=findobj('Tag', 'tAnclaje');
-    set(texto,'String',' Debes introducir el principio y fin del segmento.');
+    set(texto,'String',' You must set the beggining and end of the segment.');
     
 end
 end
@@ -211,7 +211,7 @@ if ~handles.zoom
     zoom on;
     set(handles.Linea, 'buttondownfcn',      '');
     textZoom=findobj('Tag', 'zoomText');
-    set(textZoom, 'String','Herramienta zoom activada.');
+    set(textZoom, 'String','Zoom tool enabled.');
     set(textZoom, 'visible','on');
 
     handles.zoom=true;
@@ -253,7 +253,7 @@ if ~handles.pan
     pan on;
     set(handles.Linea, 'buttondownfcn',      '');
     textZoom=findobj('Tag', 'zoomText');
-    set(textZoom, 'String','Herramienta pan activada.');
+    set(textZoom, 'String','Pan tool enabled.');
     set(textZoom, 'visible','on');
     handles.pan=true;
 else
@@ -315,7 +315,7 @@ else
     structM=load(file,'matrizTmxTr');
     % If p or m are missing... 
     if (isempty(fieldnames(structP)) || isempty(fieldnames(structM)))
-        disp('Tu fichero .mat no dispone de las variables p o matrizTmxTr (o se llaman de otra forma)')
+        disp('Your .mat file doesnt have the p or matrizTmxTr variables (or maybe they have other names)')
         return;
     end
     setButtons(false)
@@ -329,7 +329,7 @@ else
     setButtons(true);
     checkHandles(handles);
     texto=findobj('Tag', 'textMode');
-    set(texto, 'String', 'Modo mover gráfico');
+    set(texto, 'String', 'Moving plot mode');
     guidata(hObject,handles);
 end
 
@@ -450,8 +450,8 @@ else
     structM=load(file,'matrizTmxTr');
     % Si no tenemos la p o la m...
     if (isempty(fieldnames(structP)) || isempty(fieldnames(structM)))
-        disp('Tu fichero .mat no dispone de las variables p o matrizTmxTr (o se llaman de otra forma)')
-        msgbox('Tu fichero .mat no dispone de las variables p o matrizTmxTr (o se llaman de otra forma)');
+        disp('Your .mat file doesnt have the p or matrizTmxTr variables (or maybe they have other names)')
+        msgbox('Your .mat file doesnt have the p or matrizTmxTr variables (or maybe they have other names)');
         return;
     end
     setButtons(false);
@@ -601,7 +601,7 @@ if(lower(handles.key) == 'x' )
             handles.puntosCorreccion=2;
         case 2
             texto=findobj('Tag', 'tAnclaje');
-            set(texto,'String','Ya estan seleccionados los puntos de inicio y fin.');
+            set(texto,'String','You have already selected both beggining and end points');
             set(texto, 'visible', 'on');
         otherwise
             disp('aqui no deberias llegar');
@@ -663,7 +663,7 @@ if rem(cloud_size, 2) == 0
         n_ydata=handles.ydata;
         %Feedback for our user
         texto=findobj('Tag', 'tAnclaje');
-        set(texto,'String','¡No se puede mover un punto de anclaje!');
+        set(texto,'String','You cant move an anchor point!');
         set(texto, 'visible', 'on');
     end
 
@@ -682,7 +682,7 @@ else  %If the range size is odd
     else
         n_ydata=handles.ydata;
         texto=findobj('Tag', 'tAnclaje'); %Feedback for our user
-        set(texto,'String','¡No se puede mover un punto de anclaje!');
+        set(texto,'String','You cant move an anchor point!');
         set(texto, 'visible', 'on');
     end
 end
@@ -741,7 +741,7 @@ if ~isAnclaje(x1:x2, handles.anclaje)
     handles.ydata(handles.indiceOrig:handles.indiceFin)=round(y1+m*((x1:x2)-x1));
 else
     texto=findobj('Tag', 'tAnclaje');
-    set(texto,'String','¡No se puede corregir un tramo que tenga puntos de anclaje!');
+    set(texto,'String','You cant correct a segment with anchor points!');
     set(texto, 'visible', 'on');
 
 end
@@ -841,7 +841,7 @@ switch key
         if handles.cloud_size >= length(handles.xdata)
             handles.cloud_size=length(handles.xdata);
             
-             msgbox('El tamaño de la nube de puntos no puede ser mayor qeu el numero de puntos del eje','Tamaño nube');
+             msgbox('Cloudsize cant be higher than the number of points in the axis','Cloudsize');
         end
 
     case 2
@@ -849,7 +849,7 @@ switch key
         if handles.cloud_size <=0
             handles.cloud_size=1;
            
-            msgbox('El tamaño de la nube de puntos va ser como minimo 1','Tamaño nube');
+            msgbox('Cloudsize must be at least 1','Cloudsize');
 
         end
 
